@@ -3,8 +3,9 @@ import * as Dialog from '@radix-ui/react-dialog'
 
 import { ArrowCircleUp, X } from 'phosphor-react'
 import { Controller, useForm } from 'react-hook-form'
+import { useContextSelector } from 'use-context-selector'
 import { z } from 'zod'
-import { useTransactions } from '../../hooks/useTransactions'
+import { TransactionsContext } from '../../contexts/TransactionsContext'
 
 import {
   CloseButton,
@@ -37,7 +38,10 @@ export function NewTransactionModal() {
     },
   })
 
-  const { createTransaction } = useTransactions()
+  const createTransaction = useContextSelector(
+    TransactionsContext,
+    (ctx) => ctx.createTransaction,
+  )
 
   async function handleCreateNewTransaction(data: NewTransactionFormInputs) {
     createTransaction(data)
